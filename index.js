@@ -1,12 +1,6 @@
 import { AndroidRemote, RemoteKeyCode, RemoteDirection } from './lib/index.js';
-import Readline from "readline";
-import fs from 'fs'
-import keypress from "keypress";
-
-let line = Readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+import fs from 'fs';
+import express from 'express';
 
 let host = "192.168.0.120";
 let certFileName = 'cert.bin';
@@ -14,67 +8,61 @@ let certFileName = 'cert.bin';
 let options = {
     pairing_port : 6467,
     remote_port : 6466,
-    name : 'androidtv-remote',
+    name : 'Google TV',
     cert: fs.existsSync(certFileName) ? JSON.parse(fs.readFileSync(certFileName)) : undefined
 }
 
-let androidRemote = new AndroidRemote(host, options)
+let androidRemote = new AndroidRemote(host, options);
 
-androidRemote.on('secret', () => {
-    line.question("Code : ", async (code) => {
-        androidRemote.sendCode(code);
-    });
-});
+// Wait for the AndroidRemote to start
+androidRemote.start();
 
-androidRemote.on('powered', (powered) => {
-    console.debug("Powered : " + powered)
-});
 
-androidRemote.on('volume', (volume) => {
-    console.debug("Volume : " + volume.level + '/' + volume.maximum + " | Muted : " + volume.muted);
-});
+// Initialize express app
+let app = express();
 
-androidRemote.on('current_app', (current_app) => {
-    console.debug("Current App : " + current_app);
-});
+// Define the endpoint for sending keycode
+app.get('/send-keycode', async (req, res) => {
+    let keycode = req.query.keycode;
 
-androidRemote.on('error', (error) => {
-    console.error("Error : " + error);
-});
-
-androidRemote.on('unpaired', () => {
-    console.error("Unpaired");
-});
-
-androidRemote.on('ready', async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000))
-
-    let cert = androidRemote.getCertificate()
-    fs.writeFileSync(certFileName, JSON.stringify(cert))
-
-    keypress(process.stdin);
-    process.stdin.on('keypress', function (ch, key) {
-        // console.log('got "keypress"', key);
-        // TESTING for CLI KEY ENTRY
-        if (key && key.ctrl && key.name == 'c') {
-            console.log('got "keypress"', key);
-            process.stdin.pause();
+    // Check if the keycode exists in the RemoteKeyCode object
+    if (RemoteKeyCode.hasOwnProperty(keycode)) {
+        console.log(`Sending keycode: ${keycode}`);
+        try {
+            await androidRemote.sendKey(RemoteKeyCode[keycode], RemoteDirection.SHORT);
+            res.status(200).send(`Sent keycode: ${keycode}\n`);
+        } catch (err) {
+            console.error(`Error sending keycode: ${err}`);
+            res.status(500).send(`Error sending keycode: ${err}\n`);
         }
-        if (key && !key.shift && key.name == 'up') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_DPAD_UP, RemoteDirection.SHORT); }
-        if (key && !key.shift && key.name == 'down') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_DPAD_DOWN, RemoteDirection.SHORT); }
-        if (key && !key.shift && key.name == 'left') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_DPAD_LEFT, RemoteDirection.SHORT); }
-        if (key && !key.shift && key.name == 'right') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_DPAD_RIGHT, RemoteDirection.SHORT); }
-        if (key && key.name == 'return') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_DPAD_CENTER, RemoteDirection.SHORT); }
-        if (key && key.name == 'backspace') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_BACK, RemoteDirection.SHORT); }
-        if (key && key.name == 'space') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_HOME, RemoteDirection.SHORT); }
-        if (key && key.shift && key.name == 'up') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_VOLUME_UP, RemoteDirection.SHORT); }
-        if (key && key.shift && key.name == 'down') { androidRemote.sendKey(RemoteKeyCode.KEYCODE_VOLUME_DOWN, RemoteDirection.SHORT); }
-    });
-
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-
+    } else {
+        console.error(`Invalid keycode: ${keycode}`);
+        res.status(400).send(`Invalid keycode: ${keycode}\n`);
+    }
 });
 
-// Initialise the remote
-let started = await androidRemote.start();
+app.get('/send-app', async (req, res) => {
+    let encodedAppUri = req.query.uri;
+    let decodedAppUri;
+
+    // Decode the URI
+    try {
+        decodedAppUri = decodeURIComponent(encodedAppUri);
+    } catch (err) {
+        console.error(`Error decoding app URI: ${err}`);
+        res.status(400).send(`Error decoding app URI: ${err}\n`);
+        return;
+    }
+
+    console.log(`Sending app_uri: ${decodedAppUri}`);
+    try {
+        await androidRemote.sendAppLink(decodedAppUri);
+        res.status(200).send(`Sent app uri: ${decodedAppUri}\n`);
+    } catch (err) {
+        console.error(`Error sending app uri: ${err}`);
+        res.status(500).send(`Error sending app uri: ${err}\n`);
+    }
+});
+
+
+app.listen(3333, '127.0.0.1');  // Listen on port 3333
