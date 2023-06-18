@@ -1,0 +1,41 @@
+{ "name":"neeo-androidtv",
+"manufacturer":"THOMASM789",
+"type":"TV",
+"version":1,
+"buttons":{
+  "CURSOR UP":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_UP"},
+  "CURSOR DOWN":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_DOWN"},
+  "CURSOR LEFT":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_LEFT"},
+  "CURSOR RIGHT":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_RIGHT"},
+  "CURSOR ENTER":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_CENTER"},
+
+  "CHANNEL UP":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_CHANNEL_UP"},
+  "CHANNEL DOWN":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_CHANNEL_DOWN"},
+
+  "HOME":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_HOME"},
+  "MENU":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_MENU"},
+  "BACK":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_BACK"},
+
+  "POWER TOGGLE":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_POWER"},
+
+
+  "FUNCTION RED":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_PROG_RED"},
+  "FUNCTION GREEN":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_PROG_GREEN"},
+  "FUNCTION BLUE":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_PROG_BLUE"},
+  "FUNCTION YELLOW":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_PROG_YELLOW"},
+
+
+  "DIGIT 0":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_0"},
+  "DIGIT 1":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_1"},
+  "DIGIT 2":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_2"},
+  "DIGIT 3":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_3"},
+  "DIGIT 4":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_4"},
+  "DIGIT 5":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_5"},
+  "DIGIT 6":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_6"},
+  "DIGIT 7":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_7"},
+  "DIGIT 8":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_8"},
+  "DIGIT 9":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_9"},
+
+  "NETFLIX":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Fdetails%3Fid%3Dcom.netflix.ninja%26launch%3Dtrue"}
+}
+}
