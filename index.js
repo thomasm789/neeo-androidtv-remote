@@ -21,6 +21,12 @@ androidRemote.start();
 // Initialize express app
 let app = express();
 
+// Recieve android code
+app.get('/auth', async (req, res) => {
+    let code = req.query.code;
+        androidRemote.sendCode(code);
+});
+
 // Define the endpoint for sending keycode
 app.get('/send-keycode', async (req, res) => {
     let keycode = req.query.keycode;
