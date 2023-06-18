@@ -1,7 +1,7 @@
 { 
   "name":"neeo-androidtv",
   "manufacturer":"THOMASM789",
-  "type":"TV",
+  "type":"VOD",
   "version":1,
   "buttons":{
     "CURSOR UP": {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_UP"},
@@ -41,6 +41,10 @@
     "REWIND": {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_MEDIA_REWIND"},
     "SEARCH": {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_SEARCH"},
   
-    "NETFLIX":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Fdetails%3Fid%3Dcom.netflix.ninja%26launch%3Dtrue"}
+    "Netflix":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Flaunch%3Fid%3Dcom.netflix.ninja"},
+    "YouTube":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Flaunch%3Fid%3Dcom.teamsmart.videomanager.tv"},
+    "Amazon Prime":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Flaunch%3Fid%3Dcom.amazon.amazonvideo.livingroom"},
+    "Syncler":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Flaunch%3Fid%3Dcom.syncler"},
+    "iMPlayer":    {"type":"http-get", "command":"http://192.168.0.200:3333/send-app?uri=market%3A%2F%2Flaunch%3Fid%3Dcom.myiptvonline.implayer"}
   }
 }
