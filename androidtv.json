@@ -1,7 +1,7 @@
 { 
   "name":"neeo-androidtv",
   "manufacturer":"THOMASM789",
-  "type":"VOD",
+  "type":"GAMECONSOLE",
   "version":1,
   "buttons":{
     "CURSOR UP": {"type":"http-get", "command":"http://192.168.0.200:3333/send-keycode?keycode=KEYCODE_DPAD_UP"},
